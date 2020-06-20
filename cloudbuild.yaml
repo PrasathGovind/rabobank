@@ -3,5 +3,5 @@ steps:
     entrypoint: mvn
     args: ["clean","install","-DskipTests"]
   - name: gcr.io/cloud-builders/docker
-    args: ["build", "-t", "gcr.io/1/rabobank-pocs", "--build-arg=JAR_FILE=/root/.m2/repository/com/rabobank/initiate-payments/0.0.1-SNAPSHOT/initiate-payments-0.0.1-SNAPSHOT.jar", "."]
-images: ["gcr.io/1/rabobank-pocs"]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/gcloud", "--build-arg=JAR_FILE=initiate-payments-0.0.1-SNAPSHOT.jar", "."]
+images: ["gcr.io/$PROJECT_ID/gcloud"]
