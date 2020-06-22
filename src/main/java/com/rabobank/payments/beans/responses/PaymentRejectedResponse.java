@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.rabobank.payments.beans.enums.ErrorReasonCode;
 import com.rabobank.payments.beans.enums.TransactionStatus;
 
-public class PaymentRejectedResponse implements Serializable{
+public class PaymentRejectedResponse  extends PaymentsResponse implements Serializable{
 	
 	private static final long serialVersionUID = -3873828704853534302L;
 

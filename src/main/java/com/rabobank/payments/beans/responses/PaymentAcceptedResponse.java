@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.rabobank.payments.beans.enums.TransactionStatus;
 
-public class PaymentAcceptedResponse implements Serializable{
+public class PaymentAcceptedResponse extends PaymentsResponse implements Serializable{
 	
 	private static final long serialVersionUID = 5179601411449992519L;
 

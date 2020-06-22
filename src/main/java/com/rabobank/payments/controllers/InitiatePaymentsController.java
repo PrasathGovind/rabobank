@@ -12,23 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rabobank.payments.beans.requests.PaymentInitiationRequest;
 import com.rabobank.payments.beans.responses.PaymentAcceptedResponse;
+import com.rabobank.payments.interfaces.IPaymentInitiateController;
+import com.rabobank.payments.services.InitiatePaymentsService;
 import com.rabobank.payments.utils.PaymentsUtils;
 
 @RestController
 @RequestMapping("/v1.0.0")
-public class InitiatePaymentsController {
+public class InitiatePaymentsController extends IPaymentInitiateController {
 	
 	@Autowired
 	PaymentsUtils paymentsUtil;
+	
+	@Autowired
+	InitiatePaymentsService initiatePaymentsService;
 
 	@PostMapping(value="/initiate-payment", consumes= {MediaType.APPLICATION_JSON_VALUE}, produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<?> initiatePayments(@RequestHeader("X-Request-Id") String xRequestId,
+	public ResponseEntity<?> initiatePayment(@RequestHeader("X-Request-Id") String xRequestId,
 													@RequestHeader("Signature-Certificate") String signatureCertificate,
 													@RequestHeader("Signature") String signature,
 													@RequestBody PaymentInitiationRequest paymentInitiationRequest) {
 		PaymentAcceptedResponse response = paymentsUtil.getPaymentAcceptedResponse();
 		return new ResponseEntity<PaymentAcceptedResponse>(response, HttpStatus.OK);
 	}
-	
 	
 }
