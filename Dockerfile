@@ -1,6 +1,5 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=initiate-payments-0.0.1-SNAPSHOT.jar
-WORKDIR /root/.m2/repository/com/rabobank/initiate-payments/0.0.1-SNAPSHOT
-COPY . /usr/app/initiate-payments-0.0.1-SNAPSHOT.jar
-WORKDIR /usr/app
-ENTRYPOINT ["java","-jar","/initiate-payments-0.0.1-SNAPSHOT.jar"]
+ARG JAR_FILE
+ADD ${JAR_FILE} app.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-Djava.security.edg=file:/dev/./urandom","-jar","/app.jar"]
