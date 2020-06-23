@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rabobank.payments.beans.requests.PaymentInitiationRequest;
-import com.rabobank.payments.beans.responses.PaymentAcceptedResponse;
+import com.rabobank.payments.beans.responses.PaymentsResponse;
 import com.rabobank.payments.interfaces.IPaymentInitiateController;
 import com.rabobank.payments.services.InitiatePaymentsService;
 import com.rabobank.payments.utils.PaymentsUtils;
@@ -31,8 +31,8 @@ public class InitiatePaymentsController extends IPaymentInitiateController {
 													@RequestHeader("Signature-Certificate") String signatureCertificate,
 													@RequestHeader("Signature") String signature,
 													@RequestBody PaymentInitiationRequest paymentInitiationRequest) {
-		PaymentAcceptedResponse response = paymentsUtil.getPaymentAcceptedResponse();
-		return new ResponseEntity<PaymentAcceptedResponse>(response, HttpStatus.OK);
+		PaymentsResponse response = initiatePaymentsService.initiatePayments(paymentInitiationRequest);
+		return new ResponseEntity<PaymentsResponse>(response, HttpStatus.CREATED);
 	}
 	
 }

@@ -1,20 +1,15 @@
 package com.rabobank.payments.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.UUID;
 
-import com.rabobank.payments.beans.responses.PaymentAcceptedResponse;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentsUtils {
 	
-	@Autowired
-	public TestBeansCreatorUtil beansUtil;
-	
-	public PaymentAcceptedResponse getPaymentAcceptedResponse() {
-		
-		return beansUtil.getPaymentAcceptedResponse();
-	}
-	
+	public String generateUUID() {
+		final String uuid = UUID.randomUUID().toString();
+		return uuid;
+	}	
 
 }

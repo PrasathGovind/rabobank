@@ -8,17 +8,7 @@ public class PaymentAcceptedResponse extends PaymentsResponse implements Seriali
 	
 	private static final long serialVersionUID = 5179601411449992519L;
 
-	String paymentId;
-	
 	TransactionStatus status;
-
-	public String getPaymentId() {
-		return paymentId;
-	}
-
-	public void setPaymentId(String paymentId) {
-		this.paymentId = paymentId;
-	}
 
 	public TransactionStatus getStatus() {
 		return status;
@@ -30,7 +20,7 @@ public class PaymentAcceptedResponse extends PaymentsResponse implements Seriali
 
 	@Override
 	public String toString() {
-		return "PaymentAcceptedResponse [paymentId=" + paymentId + ", status=" + status + "]";
+		return "PaymentAcceptedResponse [status=" + status + "]";
 	}
 
 }

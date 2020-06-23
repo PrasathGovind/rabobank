@@ -1,5 +1,6 @@
 package com.rabobank.payments.advices;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,16 +10,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.rabobank.payments.advices.exceptions.APIException;
 import com.rabobank.payments.beans.enums.TransactionStatus;
 import com.rabobank.payments.beans.responses.PaymentRejectedResponse;
+import com.rabobank.payments.utils.PaymentsUtils;
 
 @RestControllerAdvice
 @RequestMapping("/")
 public class ExceptionAdvisor {
 	
+	@Autowired
+	PaymentsUtils paymentsUtils;
+	
 	@ExceptionHandler(APIException.class)
 	public ResponseEntity<PaymentRejectedResponse> handleAPIExceptions(APIException exception){
 		
 		PaymentRejectedResponse errorResponse = new PaymentRejectedResponse();
-		
+		errorResponse.setPaymentId(paymentsUtils.generateUUID());
 		errorResponse.setReasonCode(exception.getErrorReasonCode());
 		errorResponse.setReason(exception.getErrorReasonCode().getDescription());
 		errorResponse.setStatus(TransactionStatus.Rejected);

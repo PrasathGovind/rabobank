@@ -8,7 +8,7 @@ import com.rabobank.payments.beans.enums.TransactionStatus;
 public class PaymentRejectedResponse  extends PaymentsResponse implements Serializable{
 	
 	private static final long serialVersionUID = -3873828704853534302L;
-
+	
 	TransactionStatus status;
 	
 	String reason;
@@ -41,7 +41,9 @@ public class PaymentRejectedResponse  extends PaymentsResponse implements Serial
 
 	@Override
 	public String toString() {
-		return "PaymentRejectedResponse [status=" + status + ", reason=" + reason + ", reasonCode=" + reasonCode + "]";
+		return "PaymentRejectedResponse [status=" + status + ", reason=" + reason
+				+ ", reasonCode=" + reasonCode + "]";
 	}
 
+	
 }
