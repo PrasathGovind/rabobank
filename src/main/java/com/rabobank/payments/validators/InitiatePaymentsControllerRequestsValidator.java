@@ -23,7 +23,11 @@ public class InitiatePaymentsControllerRequestsValidator {
 		
 		// If the Certificate is missing or the Signature is missing
 		if(signatureCertificate==null || signature==null) {
-			throw new APIException(ErrorReasonCode.GENERAL_ERROR);
+			throw new APIException(ErrorReasonCode.INVALID_REQUEST);
+		}
+		
+		if(signatureCertificate.length()==0 || signature.length()==0 || xRequestId.length()==0) {
+			throw new APIException(ErrorReasonCode.INVALID_REQUEST);
 		}
 		
 		// IBAN Validations for Creditor and Debtor
