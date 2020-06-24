@@ -15,22 +15,28 @@ import com.rabobank.payments.beans.responses.PaymentsResponse;
 import com.rabobank.payments.interfaces.IPaymentInitiateController;
 import com.rabobank.payments.services.InitiatePaymentsService;
 import com.rabobank.payments.utils.PaymentsUtils;
+import com.rabobank.payments.validators.InitiatePaymentsControllerRequestsValidator;
 
 @RestController
 @RequestMapping("/v1.0.0")
 public class InitiatePaymentsController extends IPaymentInitiateController {
 	
 	@Autowired
-	PaymentsUtils paymentsUtil;
+	InitiatePaymentsControllerRequestsValidator initiatePaymentsControllerRequestsValidator;
 	
 	@Autowired
 	InitiatePaymentsService initiatePaymentsService;
+	
+	@Autowired
+	PaymentsUtils paymentsUtil;
 
 	@PostMapping(value="/initiate-payment", consumes= {MediaType.APPLICATION_JSON_VALUE}, produces= {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<?> initiatePayment(@RequestHeader("X-Request-Id") String xRequestId,
 													@RequestHeader("Signature-Certificate") String signatureCertificate,
 													@RequestHeader("Signature") String signature,
 													@RequestBody PaymentInitiationRequest paymentInitiationRequest) {
+		
+		initiatePaymentsControllerRequestsValidator.validatePaymentInitiationRequest(xRequestId, signatureCertificate, signature, paymentInitiationRequest);
 		PaymentsResponse response = initiatePaymentsService.initiatePayments(paymentInitiationRequest);
 		return new ResponseEntity<PaymentsResponse>(response, HttpStatus.CREATED);
 	}

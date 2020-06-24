@@ -6,7 +6,7 @@ public enum ErrorReasonCode {
 	INVALID_SIGNATURE("API-02","The certificate signature is invalid",400), 
 	INVALID_REQUEST("API-03","The initiate payments request is invalid",400), 
 	LIMIT_EXCEEDED("API-04","We are sorry! The amount limit exceeded",422), 
-	GENERAL_ERROR("API-05","Please check if the certificate is missing",500);
+	GENERAL_ERROR("API-05","Internal error while processing",500);
 	
 	private final String code;
     private final String description;
