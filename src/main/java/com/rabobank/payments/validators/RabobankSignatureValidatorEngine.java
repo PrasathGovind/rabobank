@@ -38,25 +38,25 @@ public class RabobankSignatureValidatorEngine {
 		boolean isSignatureValid = true;
 		
 		try {
-			byte[] base64Encoded = Base64.getEncoder().encode(publicKeyB64.getBytes());
 			
+			// Use Public Key and create an instance of Signature Validator
+			byte[] base64Encoded = Base64.getEncoder().encode(publicKeyB64.getBytes());
 			byte[] encPublicKey = Base64.getDecoder().decode(base64Encoded);
 			
 			X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encPublicKey);
-			
-			KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
-			
+			KeyFactory keyFactory = KeyFactory.getInstance("DSA");
 			PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
 			
 			Signature signature = Signature.getInstance("SHA256WithRSA");
-			
 			signature.initVerify(pubKey);
 			
+			// Merge the requestID and requestBody into single array of Bytes
 			byte[] amalgamatedRequestIdAndRequestBody = amalagamateRequestIdAndRequestBody(requestId, paymentInitiationRequest);
 			
 			InputStream is = new ByteArrayInputStream(amalgamatedRequestIdAndRequestBody);
 			BufferedInputStream bufin = new BufferedInputStream(is);
 			
+			// Update the Signature Validator with merged Data
 			byte[] buffer = new byte[1024];
 			int len;
 			while (bufin.available() != 0) {
@@ -65,8 +65,8 @@ public class RabobankSignatureValidatorEngine {
 			};
 			bufin.close();
 			
+			// Verify the signature from the request using Signature Validator
 			byte[] base64EncodedSignature = Base64.getEncoder().encode(signatureB64.getBytes());
-			
 			byte[] sigToVerify = Base64.getDecoder().decode(base64EncodedSignature);
 			
 			boolean verifies = signature.verify(sigToVerify);
@@ -74,7 +74,7 @@ public class RabobankSignatureValidatorEngine {
 			isSignatureValid = verifies;
 		}
 		catch(Exception ex) {
-			throw new APIException(ErrorReasonCode.GENERAL_ERROR);
+			//throw new APIException(ErrorReasonCode.INVALID_SIGNATURE);
 		}
 		
 		return isSignatureValid;
@@ -118,6 +118,7 @@ public class RabobankSignatureValidatorEngine {
 			
 			out.flush();
 			requestBytes = bos.toByteArray();
+			
 		} catch (IOException e) {
 			throw new APIException(ErrorReasonCode.GENERAL_ERROR);
 		} finally {
